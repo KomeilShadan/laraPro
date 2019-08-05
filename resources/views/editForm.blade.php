@@ -9,7 +9,7 @@
 
 	<form method="post" action="/orders/{{ $order->id }}">
 
-		{{ method_field('patch') }}
+		@method('PATCH')
 
 		@csrf
 

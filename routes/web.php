@@ -15,15 +15,23 @@ Route::get('/', 'pageController@welcome');
 
 Route::get('about', 'pageController@about');
 
-Route::get('users/{user}', 'pageController@showUser');
-Route::get('users/{user}/orders', 'pageController@showOrder');
+Route::name('user.')->prefix('users')->group(function () {
 
-Route::get('users/{user}/addOrder', 'pageController@addForm');
+	Route::get('{user}', 'pageController@showUser')->name('show');
+	Route::get('{user}/orders', 'pageController@showOrder')->name('orders');
 
-Route::post('users/{user}/orders', 'orderController@submit');
+	Route::get('{user}/addOrder', 'pageController@addForm')->name('addOrder');
 
-Route::get('orders/{order}/edit', 'orderController@editForm');
-Route::patch('orders/{order}', 'orderController@update');
+	Route::post('{user}/orders', 'orderController@submit')->name('submitOrder');
+
+});
+
+Route:name('order.')->prefix('orders')->group(function () {
+	
+	Route::get('{order}/edit', 'orderController@editForm')->name('edit');
+	Route::patch('{order}', 'orderController@update')->name('update');
+
+});
 
 Auth::routes();
 
