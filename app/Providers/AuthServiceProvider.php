@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Route;
+use App\Order;
+use App\Policies\OrderPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        Order::class => OrderPolicy::class,
     ];
 
     /**
@@ -25,6 +28,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+       /* Gate::define('create', function ($user)
+        {
+           return auth()->id() === Route::current()->parameter('user.id'); 
+        });*/
+
     }
 }

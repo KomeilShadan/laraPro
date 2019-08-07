@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Order;
 use App\Tag;
+use Route;
 use Illuminate\Foundation\Inspiring;
 
 class pageController extends Controller
@@ -34,7 +35,9 @@ class pageController extends Controller
 		}
 
 	public function addForm(User $user)
-		{
+		{	
+			$this->authorize('create', Order::class);
+
 			$tags = Tag::all();
 			return view('addForm', compact('user', 'tags'));		
 		}

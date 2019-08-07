@@ -17,20 +17,26 @@ Route::get('about', 'pageController@about');
 
 Route::name('user.')->prefix('users')->group(function () {
 
-	Route::get('{user}', 'pageController@showUser')->name('show');
-	Route::get('{user}/orders', 'pageController@showOrder')->name('orders');
+	Route::group(['middleware' => 'auth', 'where' => ['user' => '[0-9]+']], function () {	//use group in group for array parameter when having name() before group!
 
-	Route::get('{user}/addOrder', 'pageController@addForm')->name('addOrder');
+		//auth()->loginUsingId(13);
 
-	Route::post('{user}/orders', 'orderController@submit')->name('submitOrder');
+		Route::get('{user}', 'pageController@showUser')->name('show');
+		Route::get('{user}/orders', 'pageController@showOrder')->name('orders');
 
+		Route::get('{user}/addOrder', 'pageController@addForm')->name('addOrder');
+
+		Route::post('{user}/orders', 'orderController@submit')->name('submitOrder');
+	});
 });
 
-Route:name('order.')->prefix('orders')->group(function () {
-	
-	Route::get('{order}/edit', 'orderController@editForm')->name('edit');
-	Route::patch('{order}', 'orderController@update')->name('update');
+Route::name('order.')->prefix('orders')->group(function () {
 
+	Route::group(['middleware' => 'auth'], function () {
+
+		Route::get('{order}/edit', 'orderController@editForm')->name('edit');
+		Route::patch('{order}', 'orderController@update')->name('update');
+	});
 });
 
 Auth::routes();

@@ -15,7 +15,7 @@
 
 		<div class="form-group"> <h3>edit the item</h3>
 			<textarea name="item" class="form-control"> {{ $order->item }} </textarea>
-			<input type="submit" name="submit">
+			@can('update', $order) <input type="submit" name="submit"> @endcan
 		</div>
 
 		@include('partials.editTags')
