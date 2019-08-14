@@ -21,8 +21,11 @@ class CreateTagsTable extends Migration
 
         Schema::create('order_tag', function (Blueprint $table) {   //* O...T singular and sequential alphabet for pivot table name
             $table->bigInteger('order_id')->unsigned()->index();
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->bigInteger('tag_id')->unsigned()->index();
+
+            $table->primary(['order_id', 'tag_id']);
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
             $table->timestamps();   // *
         });

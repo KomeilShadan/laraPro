@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Route;
 use App\Order;
+use App\Permission;
 use App\Policies\OrderPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -28,10 +28,18 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-       /* Gate::define('create', function ($user)
-        {
-           return auth()->id() === Route::current()->parameter('user.id'); 
-        });*/
+        foreach ($this->getPermissions() as $permission) {
 
+            Gate::define($permission->name, function ($user) use ($permission)
+            {
+                return $user->hasRole($permission->roles);
+            });
+        }
+
+    }
+
+    protected function getPermissions()
+    {
+        return Permission::with('roles')->get();
     }
 }

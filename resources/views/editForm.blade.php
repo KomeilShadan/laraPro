@@ -15,7 +15,11 @@
 
 		<div class="form-group"> <h3>edit the item</h3>
 			<textarea name="item" class="form-control"> {{ $order->item }} </textarea>
-			@can('update', $order) <input type="submit" name="submit"> @endcan
+
+			@can(['update', 'edit_order'], $order)	{{-- * --}}
+			 <input type="submit" name="submit">
+			@endcan
+
 		</div>
 
 		@include('partials.editTags')

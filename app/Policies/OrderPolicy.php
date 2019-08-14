@@ -4,9 +4,9 @@
 
 namespace App\Policies;
 
+use Route;
 use App\User;
 use App\Order;
-use Route;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrderPolicy
