@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Verta;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,5 +56,30 @@ class User extends Authenticatable
         }*/
 
         return !! $role->intersect($this->roles)->count();
+    }
+
+    // //Accessor
+    // public function getNameAtrribute($name)
+    // {
+    //     return strtoupper($name);
+    // }
+                                                    //problem at login
+    // //Accessor for multiple columns
+    // public function __get($name)
+    // {
+    //     return strtoupper($this->attributes['name']);
+    // }
+
+    // //Mutator
+    // public function setCreatedAtAttribute()
+    // {
+    //     $this->attributes['created_at'] = Verta::now();
+    // }
+
+    //Mutator for multiple columns
+    public function __set($name, $value)
+    {
+        $this->attributes['created_at'] = Verta::now();
+        $this->attributes['updated_at'] = Verta::now();
     }
 }

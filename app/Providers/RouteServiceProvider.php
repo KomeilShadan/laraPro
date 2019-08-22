@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,9 +24,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        Route::bind('user', function ($name)
+        {
+            return User::where('name', $name)->firstOrFail() ?: abort(403,'sorry'); //kar nmikone bejash mire soraghe 404.blade.php tu views/errors
+        });
     }
 
     /**

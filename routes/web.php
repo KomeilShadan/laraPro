@@ -17,7 +17,7 @@ Route::get('about', 'pageController@about');
 
 Route::name('user.')->prefix('users')->group(function () {
 
-	Route::group(['middleware' => 'auth', 'where' => ['user' => '[0-9]+']], function () {	//use group in group for array parameter when having name() before group!
+	Route::group(['middleware' => 'auth'/*, 'where' => ['user' => '[0-9]+']*/], function () {	//use group in group for array parameter when having name() before group!
 
 		//auth()->loginUsingId(13);
 
@@ -44,3 +44,14 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/administrator')->name('administrator')->middleware('admin');
+
+Route::get('/{name}/profile', function (App\User $name)	//custome route binding -->> RouteServiceProvider
+{
+	return $name;
+})->middleware('throttle:3,1');
+
+Route::get('/profile', function ()
+{
+	return App\User::findOrFail(53)->name;
+});
+
